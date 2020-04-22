@@ -18,7 +18,7 @@ func init()  {
 	flag.Int64Var(&target, "t", 0, " 1-XJ 2-CC 3-WS")
 	flag.BoolVar(&downloadDemoList, "d", false, "是否下载Demo列表文件")
 	flag.BoolVar(&downloadMap, "m", false, "是否下载地图包")
-	flag.BoolVar(&unRar, "u", false, "是否加压地图包")
+	flag.BoolVar(&unRar, "u", false, "是否解压地图包")
 	flag.BoolVar(&reformat, "f", false, "是否整理地图包文件")
 }
 
@@ -66,5 +66,5 @@ func main() {
 	if reformat {
 		record.Reformat()
 	}
-	fmt.Println("done")
+	fmt.Println("\ndone")
 }

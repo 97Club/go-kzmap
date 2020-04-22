@@ -5,6 +5,7 @@ import (
 	"github.com/gen2brain/go-unarr"
 	"io/ioutil"
 	"os"
+	"strings"
 	"sync"
 )
 
@@ -20,6 +21,14 @@ func (a *WorldRecord) UnRarFiles() error {
 	for _, fi := range dir {
 		if !fi.IsDir() {
 			group.Add(1)
+
+			mapName := strings.ReplaceAll(fi.Name(), ".rar", "")
+			stat, err := os.Stat(a.MapSaveDir + "/maps/" + mapName + ".bsp")
+			if err == nil && stat.Size() > 0 {
+				fmt.Println("unzip " + mapName + " bsp exist.")
+				continue
+			}
+
 			go func(fi os.FileInfo) {
 				fmt.Println("unzip " + fi.Name())
 				err := a.unRAR(path + "/" + fi.Name())
