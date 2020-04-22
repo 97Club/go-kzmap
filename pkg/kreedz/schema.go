@@ -14,12 +14,11 @@ const (
 	DebugWorldRecord = 0
 )
 
-const CStrikeDir = "./cstrike/"
-
 type WorldRecord struct {
 	Organization     Organization
 	recordFileHeader http.Header
-	mapNameCache map[string]*RecordInfo
+	mapNameCache     map[string]*RecordInfo
+	MapSaveDir       string
 }
 
 type RecordInfo struct {

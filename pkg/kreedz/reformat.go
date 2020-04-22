@@ -41,7 +41,7 @@ func (a *WorldRecord) isDefaultDir(s string) bool {
 }
 
 func (a *WorldRecord) Reformat()  {
-	dir, err := ioutil.ReadDir(CStrikeDir)
+	dir, err := ioutil.ReadDir(a.MapSaveDir)
 	if err != nil {
 		return
 	}
@@ -57,7 +57,7 @@ func (a *WorldRecord) Reformat()  {
 				//for _, fii := range sd {
 				//	a.MoveDir(fi.Name() + "/" + fii.Name())
 				//}
-				err = a.MoveDir(CStrikeDir + "/" + fi.Name(), CStrikeDir)
+				err = a.MoveDir(a.MapSaveDir + "/" + fi.Name(), a.MapSaveDir)
 				if err != nil {
 					logger.Println(err.Error())
 				}
@@ -68,7 +68,7 @@ func (a *WorldRecord) Reformat()  {
 	}
 	group.Wait()
 
-	a.ClearDir(CStrikeDir)
+	a.ClearDir(a.MapSaveDir)
 }
 
 func (a *WorldRecord) MoveDir(src string, to string) error {
@@ -115,7 +115,7 @@ func (a *WorldRecord) MoveDir(src string, to string) error {
 }
 
 func (a *WorldRecord) MoveBSP(filename string) {
-	err := os.Rename(CStrikeDir + filename, CStrikeDir + "/maps/" + filename)
+	err := os.Rename(a.MapSaveDir + "/" + filename, a.MapSaveDir + "/maps/" + filename)
 	if err != nil {
 		logger.Println(err.Error())
 	}

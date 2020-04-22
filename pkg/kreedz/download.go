@@ -40,14 +40,30 @@ func (a *WorldRecord) DownloadMapFile() error {
 			continue
 		}
 
-		// 建议使用单线程，避免被封禁ip
 		local := fmt.Sprintf(mapRarPaths[a.Organization], record.MapName)
-		_, err := os.Stat(local)
+		stat, err := os.Stat(local)
+		if err == nil && stat.Size() > 0 {
+			fmt.Println("downloading map " + record.MapName + " rar exist.")
+			continue
+		}
+
+		// 建议使用单线程，避免被封禁ip
+		stat, err = os.Stat(a.MapSaveDir + "/maps/" + record.MapName + ".bsp")
+		if err == nil && stat.Size() > 0 {
+			fmt.Println("downloading map " + record.MapName + " bsp exist.")
+			continue
+		}
+
 		if os.IsNotExist(err) {
+			local := fmt.Sprintf(mapRarPaths[a.Organization], record.MapName)
 			remote := fmt.Sprintf(mapSite[a.Organization], record.MapName)
+			fmt.Print("downloading map " + record.MapName)
 			err = a.downloadFile(remote, local)
 			if err != nil {
 				logger.Println(err.Error())
+				fmt.Println(" error")
+			} else {
+				fmt.Println(" done")
 			}
 		}
 	}

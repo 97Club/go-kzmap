@@ -21,9 +21,13 @@ func (a *WorldRecord) UnRarFiles() error {
 		if !fi.IsDir() {
 			group.Add(1)
 			go func(fi os.FileInfo) {
+				fmt.Println("unzip " + fi.Name())
 				err := a.unRAR(path + "/" + fi.Name())
 				if err != nil {
 					logger.Println(fi.Name() + "   " + err.Error())
+					fmt.Println("unzip " + fi.Name() + " error: " + err.Error())
+				} else {
+					fmt.Println("unzip " + fi.Name() + " done")
 				}
 				group.Done()
 			}(fi)
@@ -41,7 +45,7 @@ func (a *WorldRecord) unRAR(file string) error {
 	}
 	defer r.Close()
 
-	_, err = r.Extract(CStrikeDir)
+	_, err = r.Extract(a.MapSaveDir)
 	if err != nil {
 		return err
 	}
